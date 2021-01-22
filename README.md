@@ -1,2 +1,2 @@
 # senior-design-top-level
-Senior Design Project - Main Code Base
+This will serve as our Senior Design Project's main source code base
