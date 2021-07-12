@@ -30,12 +30,14 @@ def speech():
                     time.sleep(120)                     #Hold the GPIO pin High for 2 Minutes
                 if message == 'exit':
                     break
+                
+                time.sleep(1)
+                time_left = time_left - 1
+                
             except sr.UnknownValueError:
                 print('Google Speech did not recognize audio')
             except sr.RequestError as e:
                 print('Could not request results from Google Speech Recognition Service; {0}'.format(e))
-        time.sleep(1)
-        time_left = time_left - 1
 
 #If GPIO from MSP430 to the Pi for the Sonar Sensor is set, there is someone within 2m of the door so run the SpeechRecognition function
 ### NEED TO SET UP WITH GPIO Pins WE WANT TO USE ###
