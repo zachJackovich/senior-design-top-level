@@ -1,5 +1,6 @@
 import speech_recognition as sr
 import RPi.GPIO as GPIO
+from time import sleep
 
 #GPIO.setmode(GPIO.BCM)
 
