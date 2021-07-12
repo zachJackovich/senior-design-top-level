@@ -15,6 +15,8 @@ while True:
             #print('You said : {}'.format(text))
             print('You said : ' + text)
             message = text
+            if message == '4321':
+                print("Pin Number Detected...")
             if message == 'exit':
                 break
         except sr.UnknownValueError:
