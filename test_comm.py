@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-from time import sleep
+import sleep
 
 GPIO.setmode(GPIO.BCM)
 
@@ -13,6 +13,7 @@ try:
             print("GPIO is High")
         else:
             print("GPIO is Low")
+        time.sleep(1)
             
 finally:
     print("Exiting GPIO Test...")
