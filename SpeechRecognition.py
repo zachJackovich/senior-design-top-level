@@ -5,13 +5,15 @@ from time import sleep
 #GPIO.setmode(GPIO.BCM)
 
 #Set GPIO Pin 21 as Output, and set an internal Pull-Down Resistor 
-#GPIO.setup(21, GPIO.OUT, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(21, GPIO.OUT, pull_up_down=GPIO.PUD_DOWN)
+#Set GPIO Pin 20 as Input, 
+GPIO.setup(20, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 def speech():
     r = sr.Recognizer()
 
     message = 'empty'
-    time_left = 120
+    #time_left = 120
 
     while (time_left != 0):
         with sr.Microphone() as source:
@@ -31,17 +33,18 @@ def speech():
                 if message == 'exit':
                     break
                 
-                time.sleep(1)
-                time_left = time_left - 1
+                #time.sleep(1)
+                #time_left = time_left - 1
                 
             except sr.UnknownValueError:
                 print('Google Speech did not recognize audio')
             except sr.RequestError as e:
                 print('Could not request results from Google Speech Recognition Service; {0}'.format(e))
 
+
 #If GPIO from MSP430 to the Pi for the Sonar Sensor is set, there is someone within 2m of the door so run the SpeechRecognition function
 ### NEED TO SET UP WITH GPIO Pins WE WANT TO USE ###
-#if(GPIO.input(1)):
-#    speech()
+if(GPIO.input(20)):
+    speech()
 
-speech()
+#speech()

@@ -29,20 +29,26 @@ GPIO.setup(C2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(C3, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(C4, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
+string = ""
+
 #creating the function definiton for readLine() that takes the line # and characters on that line as arguments
 def readLine(line, characters):
     GPIO.output(line, GPIO.HIGH)
     if(GPIO.input(C1) == 1):
         print(characters[0])
+        string = string + characters[0]
         lcd.lcd_display_string(characters[0], 1, 0)
     if(GPIO.input(C2) == 1):
         print(characters[1])
+        string = string + characters[1]
         lcd.lcd_display_string(characters[1], 1, 0)
     if(GPIO.input(C3) == 1):
         print(characters[2])
+        string = string + characters[2]
         lcd.lcd_display_string(characters[2], 1, 0)
     if(GPIO.input(C4) == 1):
         print(characters[3])
+        string = string + characters[3]
         lcd.lcd_display_string(characters[3], 1, 0)
     GPIO.output(line, GPIO.LOW)
 
@@ -53,6 +59,9 @@ try:
         readLine(L3, ["7","8","9","C"])
         readLine(L4, ["*","0","#","D"])
         time.sleep(0.1)
+    
 except KeyboardInterrupt:
     print("\nApplication stopped!")
+    print("Pin Number Detected: " + string)
     lcd.lcd_clear()
+
