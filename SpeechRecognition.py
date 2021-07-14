@@ -284,7 +284,7 @@ def readLine(string, line, characters):
     return string
 
 def keypad_function():
-    kp = keypad()
+    kp = keypad(columnCount = 4)
     
     print("Inside keypad_function")
     ###### 4 Digit wait ######
