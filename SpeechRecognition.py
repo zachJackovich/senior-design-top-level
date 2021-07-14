@@ -172,6 +172,7 @@ def listen_for_pin():
                 lcd.lcd_display_string("Try again", 2)
 
 def keypad(string):
+    print("In keypad()")
     try:
         while (len(string) < 5):
             # Added another paramater "string" to update the "global variable" - Moisess
@@ -193,6 +194,7 @@ def keypad(string):
     
     
 def readLine(string, line, characters):
+    print("In readLine()")
     #Set the Line GPIO High, to test each Column
     GPIO.output(line, GPIO.HIGH)
 
