@@ -273,7 +273,8 @@ def keypad_function():
         digit = None
         while digit == None:
             digit = kp.getKey()
-        seq = seq + digit
+            char_version = str(digit)
+        seq = seq + char_version
         time.sleep(0.4)
     print("Pin Number Entered: " + seq)
 
