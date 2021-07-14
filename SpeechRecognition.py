@@ -1,6 +1,6 @@
 import I2C_LCD_driver
 import speech_recognition as sr
-from keyPad import *
+#from keyPad import *
 
 #Things to do:
 # Initialize LCD                          => Done
@@ -44,7 +44,7 @@ GPIO.setup(C3, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(C4, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 #GPIO from Pi to MSP430
-GPIO.setup(21, GPIO.OUT, pull_up_down=GPIO.PUD_DOWN)
+#GPIO.setup(21, GPIO.OUT, pull_up_down=GPIO.PUD_DOWN)
 
 # Users pin definitions
 
@@ -76,7 +76,7 @@ def speech():
                 print('You said : ' + text)
                 message = text
                 
-                 if message == 'speech':
+                if message == 'speech':
                     listen_for_pin()
 
                 elif message == 'keypad':
@@ -102,8 +102,9 @@ def listen_for_pin():
     message = 'empty'
     lcd.lcd_display_string("Say your Pin Number...", 1)
     print("Say your Pin Number")
+    user_recognized = False
 
-    while True:
+    while not(user_recognized):
         with sr.Microphone() as source:
             audio = r.listen(source)
             text = r.recognize_google(audio)
@@ -112,7 +113,8 @@ def listen_for_pin():
                 # Display welcome message to Adam
                 print("Pin Number Detected...")
                 lcd.lcd_display_string("Welcome Home, Adam!", 1)
-                GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+                user_recognized = True
+                #GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
                 time.sleep(120)                     #Hold the GPIO pin High for 2 Minutes
                 break
 
@@ -120,7 +122,8 @@ def listen_for_pin():
                 # Display welcome message to Moisess
                 print("Pin Number Detected...")
                 lcd.lcd_display_string("Welcome Home, Moisess!", 1)
-                GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+                user_recognized = True
+                #GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
                 time.sleep(120)                     #Hold the GPIO pin High for 2 Minutes
                 break
 
@@ -128,7 +131,8 @@ def listen_for_pin():
                 # Display welcome message to Reham
                 print("Pin Number Detected...")
                 lcd.lcd_display_string("Welcome Home, Reham!", 1)
-                GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+                user_recognized = True
+                #GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
                 time.sleep(120)                     #Hold the GPIO pin High for 2 Minutes
                 break
 
@@ -136,7 +140,8 @@ def listen_for_pin():
                 # Display welcome message to Zach
                 print("Pin Number Detected...")
                 lcd.lcd_display_string("Welcome Home, Zach!", 1)
-                GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+                user_recognized = True
+                #GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
                 time.sleep(120)                     #Hold the GPIO pin High for 2 Minutes
                 break
 
