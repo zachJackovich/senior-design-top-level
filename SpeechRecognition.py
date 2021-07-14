@@ -46,11 +46,11 @@ GPIO.setup(C3, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(C4, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 #GPIO from Pi to MSP430
-GPIO.setup(6, GPIO.OUT, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(6, GPIO.OUT)
 #GPIO from Pi to Pi
-GPIO.setup(12, GPIO.OUT, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(12, GPIO.OUT)
 #GPIO from MSP430 to Pi
-GPIO.setup(16, GPIO.IN)
+GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 
 # Users pin definitions
