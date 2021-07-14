@@ -104,6 +104,7 @@ def speech():
 def listen_for_pin():
     r = sr.Recognizer()
     message = 'empty'
+    lcd.lcd_clear()
     lcd.lcd_display_string("Say your Pin...", 1)
     print("Say your Pin Number")
     user_recognized = False
