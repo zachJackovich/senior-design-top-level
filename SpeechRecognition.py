@@ -123,9 +123,9 @@ def listen_for_pin():
                 lcd.lcd_display_string("Welcome Home,", 1)
                 lcd.lcd_display_string("Adam!", 2)
                 user_recognized = True
-                GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+                #GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
                 GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
-                #time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
+                time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
                 break
 
             elif message == '4321':
@@ -135,9 +135,9 @@ def listen_for_pin():
                 lcd.lcd_display_string("Welcome Home,", 1)
                 lcd.lcd_display_string("Moisess!", 2)
                 user_recognized = True
-                GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+                #GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
                 GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
-                #time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
+                time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
                 break
 
             elif message == '5678':
@@ -147,9 +147,9 @@ def listen_for_pin():
                 lcd.lcd_display_string("Welcome Home,", 1)
                 lcd.lcd_display_string("Reham!", 2)
                 user_recognized = True
-                GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+                #GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
                 GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
-                #time.sleep(2)                       # Hold the GPIO pin High for 2 Minutes
+                time.sleep(2)                       # Hold the GPIO pin High for 2 Minutes
                 break
 
             elif message == '8765':
@@ -159,9 +159,9 @@ def listen_for_pin():
                 lcd.lcd_display_string("Welcome Home,", 1)
                 lcd.lcd_display_string("Zach!", 2)
                 user_recognized = True
-                GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+                #GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
                 GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
-                #time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
+                time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
                 break
 
             else:
@@ -197,9 +197,9 @@ def keypad_function():
             lcd.lcd_display_string("Welcome Home,", 1)
             lcd.lcd_display_string("Adam!", 2)
             user_recognized = True
-            GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+            #GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
             GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
-            #time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
+            time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
             break
 
         elif seq == '4321':
@@ -209,9 +209,9 @@ def keypad_function():
             lcd.lcd_display_string("Welcome Home,", 1)
             lcd.lcd_display_string("Moisess!", 2)
             user_recognized = True
-            GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+            #GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
             GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
-            #time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
+            time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
             break
 
         elif seq == '5678':
@@ -221,9 +221,9 @@ def keypad_function():
             lcd.lcd_display_string("Welcome Home,", 1)
             lcd.lcd_display_string("Reham!", 2)
             user_recognized = True
-            GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+            #GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
             GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
-            #time.sleep(2)                       # Hold the GPIO pin High for 2 Minutes
+            time.sleep(2)                       # Hold the GPIO pin High for 2 Minutes
             break
 
         elif seq == '8765':
@@ -233,9 +233,9 @@ def keypad_function():
             lcd.lcd_display_string("Welcome Home,", 1)
             lcd.lcd_display_string("Zach!", 2)
             user_recognized = True
-            GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+            #GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
             GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
-            #time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
+            time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
             break
 
         else:
