@@ -46,7 +46,12 @@ GPIO.setup(C3, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(C4, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 #GPIO from Pi to MSP430
-#GPIO.setup(21, GPIO.OUT, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(6, GPIO.OUT, pull_up_down=GPIO.PUD_DOWN)
+#GPIO from Pi to Pi
+GPIO.setup(12, GPIO.OUT, pull_up_down=GPIO.PUD_DOWN)
+#GPIO from MSP430 to Pi
+GPIO.setup(16, GPIO.OUT, pull_up_down=GPIO.PUD_DOWN)
+
 
 # Users pin definitions
 
@@ -93,9 +98,9 @@ def speech():
                     print ("invalid input!!")
                 
             except sr.UnknownValueError:
-                print('Google Speech did not recognize audio')
+                print('Did not recognize audio')
             except sr.RequestError as e:
-                print('Could not request results from Google Speech Recognition Service; {0}'.format(e))
+                print('Could not recognize speech during analysis; {0}'.format(e))
 
         time_left = time_left - 1
 
@@ -121,8 +126,9 @@ def listen_for_pin():
                 lcd.lcd_display_string("Welcome Home,", 1)
                 lcd.lcd_display_string("Adam!", 2)
                 user_recognized = True
-                #GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-                #time.sleep(2)                     #Hold the GPIO pin High for 2 Minutes
+                GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+                GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
+                #time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
                 break
 
             elif message == '4321':
@@ -132,7 +138,8 @@ def listen_for_pin():
                 lcd.lcd_display_string("Welcome Home,", 1)
                 lcd.lcd_display_string("Moisess!", 2)
                 user_recognized = True
-                #GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+                GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+                GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
                 #time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
                 break
 
@@ -143,8 +150,9 @@ def listen_for_pin():
                 lcd.lcd_display_string("Welcome Home,", 1)
                 lcd.lcd_display_string("Reham!", 2)
                 user_recognized = True
-                #GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-                #time.sleep(2)                     #Hold the GPIO pin High for 2 Minutes
+                GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+                GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
+                #time.sleep(2)                       # Hold the GPIO pin High for 2 Minutes
                 break
 
             elif message == '8765':
@@ -154,8 +162,9 @@ def listen_for_pin():
                 lcd.lcd_display_string("Welcome Home,", 1)
                 lcd.lcd_display_string("Zach!", 2)
                 user_recognized = True
-                #GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-                #time.sleep(2)                     #Hold the GPIO pin High for 2 Minutes
+                GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+                GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
+                #time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
                 break
 
             else:
@@ -167,10 +176,10 @@ def listen_for_pin():
 
 
 #If GPIO from MSP430 to the Pi for the Sonar Sensor is set, there is someone within 2m of the door so run the SpeechRecognition function
-### NEED TO SET UP WITH GPIO Pins WE WANT TO USE ###
-#if(GPIO.input(20)):
-#    speech()
+if(GPIO.input(16)):
+    print("GPIO from MSP430 set HIGH. Running Speech()...")
+    speech()
 
-speech()
+#speech()
 
 
