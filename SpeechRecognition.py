@@ -97,7 +97,7 @@ def speech():
             except sr.RequestError as e:
                 print('Could not request results from Google Speech Recognition Service; {0}'.format(e))
 
-            time_left = time_left - 1
+        time_left = time_left - 1
 
 
 def listen_for_pin():
