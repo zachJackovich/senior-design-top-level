@@ -268,15 +268,14 @@ def keypad_function():
     
     print("Inside keypad_function")
     ###### 4 Digit wait ######
-    seq = []
+    seq = ''
     for i in range(4):
         digit = None
         while digit == None:
             digit = kp.getKey()
-        seq.append(digit)
+        seq = seq + digit
         time.sleep(0.4)
-    print("Pin Number Entered: ")
-    print(seq)
+    print("Pin Number Entered: " + seq)
 
 
 
