@@ -183,8 +183,9 @@ def keypad(string):
             string = readLine(string, L4, ["*","0","#","D"])
             time.sleep(0.1)
             print(len(string))
-            lcd.lcd_clear()
-            return string
+            
+        return string
+        
         
     except KeyboardInterrupt:
         print("\nApplication stopped!")
