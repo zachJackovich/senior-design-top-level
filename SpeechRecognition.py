@@ -173,28 +173,7 @@ def listen_for_pin():
                 lcd.lcd_display_string("Invalid Pin,", 1)
                 lcd.lcd_display_string("Try again", 2)
 
-def keypad(string):
-    print("In keypad()")
-    try:
-        while (len(string) < 5):
-            # Added another paramater "string" to update the "global variable" - Moisess
-            # Set string equal to the readLine function to update the variable - Moisess
-            string = readLine(string, L1, ["1","2","3","A"])
-            string = readLine(string, L2, ["4","5","6","B"])
-            string = readLine(string, L3, ["7","8","9","C"])
-            string = readLine(string, L4, ["*","0","#","D"])
-            time.sleep(0.1)
-            print(len(string))
-            
-        return string
-        
-        
-    except KeyboardInterrupt:
-        print("\nApplication stopped!")
-        print("Pin Number Detected: " + string)
-        lcd.lcd_clear()
-        return string
-    
+
     
 def readLine(string, line, characters):
     print("In readLine()")
