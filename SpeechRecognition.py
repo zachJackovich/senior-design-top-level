@@ -172,17 +172,19 @@ def listen_for_pin():
                 lcd.lcd_display_string("Try again", 2)
 
 def keypad(string):
-    num_count = 0
+    #num_count = 0
     try:
-        while num_count < 4:
+        while True:
             # Added another paramater "string" to update the "global variable" - Moisess
             # Set string equal to the readLine function to update the variable - Moisess
-            string,num_count = readLine(string, L1, ["1","2","3","A"], num_count)
-            string,num_count = readLine(string, L2, ["4","5","6","B"], num_count)
-            string,num_count = readLine(string, L3, ["7","8","9","C"], num_count)
-            string,num_count = readLine(string, L4, ["*","0","#","D"], num_count)
+            string = readLine(string, L1, ["1","2","3","A"])
+            string = readLine(string, L2, ["4","5","6","B"])
+            string = readLine(string, L3, ["7","8","9","C"])
+            string = readLine(string, L4, ["*","0","#","D"])
             time.sleep(0.1)
-            print(num_count)
+            #print(num_count)
+            lcd.lcd_clear()
+            return string
         
     except KeyboardInterrupt:
         print("\nApplication stopped!")
@@ -190,7 +192,8 @@ def keypad(string):
         lcd.lcd_clear()
         return string
     
-def readLine(string, line, characters, num_count):
+    
+def readLine(string, line, characters):
     #Set the Line GPIO High, to test each Column
     GPIO.output(line, GPIO.HIGH)
 
@@ -199,32 +202,32 @@ def readLine(string, line, characters, num_count):
         string = string + characters[0]
         lcd.lcd_display_string(characters[0], 1, 0)
         # added this return string logic - Moisess
-        num_count = num_count + 1
-        return string,num_count
+        #num_count = num_count + 1
+        return string
 
     if(GPIO.input(C2) == 1):
         print(characters[1])
         string = string + characters[1]
         lcd.lcd_display_string(characters[1], 1, 0)
         # added this return string logic - Moisess
-        num_count = num_count + 1
-        return string,num_count
+        #num_count = num_count + 1
+        return string
 
     if(GPIO.input(C3) == 1):
         print(characters[2])
         string = string + characters[2]
         lcd.lcd_display_string(characters[2], 1, 0)
         # added this return string logic - Moisess
-        num_count = num_count + 1
-        return string,num_count
+        #num_count = num_count + 1
+        return string
 
     if(GPIO.input(C4) == 1):
         print(characters[3])
         string = string + characters[3]
         lcd.lcd_display_string(characters[3], 1, 0)
         # added this return string logic - Moisess
-        num_count = num_count + 1
-        return string,num_count
+        #num_count = num_count + 1
+        return string
 
     #Set the Line GPIO back to Low
     GPIO.output(line, GPIO.LOW)
