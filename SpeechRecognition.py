@@ -1,5 +1,6 @@
 import I2C_LCD_driver
 import speech_recognition as sr
+import RPi.GPIO as GPIO
 #from keyPad import *
 
 #Things to do:
