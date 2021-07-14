@@ -199,7 +199,7 @@ def keypad_function():
             user_recognized = True
             #GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
             GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
-            time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
+            time.sleep(10)                     # Hold the GPIO pin High for 2 Minutes
             break
 
         elif seq == '4321':
@@ -211,7 +211,7 @@ def keypad_function():
             user_recognized = True
             #GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
             GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
-            time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
+            time.sleep(10)                     # Hold the GPIO pin High for 2 Minutes
             break
 
         elif seq == '5678':
@@ -223,7 +223,7 @@ def keypad_function():
             user_recognized = True
             #GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
             GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
-            time.sleep(2)                       # Hold the GPIO pin High for 2 Minutes
+            time.sleep(10)                       # Hold the GPIO pin High for 2 Minutes
             break
 
         elif seq == '8765':
@@ -235,7 +235,7 @@ def keypad_function():
             user_recognized = True
             #GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
             GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
-            time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
+            time.sleep(10)                     # Hold the GPIO pin High for 2 Minutes
             break
 
         else:
