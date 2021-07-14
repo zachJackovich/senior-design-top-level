@@ -1,6 +1,7 @@
 import I2C_LCD_driver
 import speech_recognition as sr
 import RPi.GPIO as GPIO
+import time
 #from keyPad import *
 
 #Things to do:
@@ -59,9 +60,9 @@ def speech():
 
     r = sr.Recognizer()
     message = 'empty'
-    #time_left = 120
+    time_left = 120
 
-    while True:
+    while (time_left != 0):
 
         with sr.Microphone() as source:
             
@@ -89,8 +90,8 @@ def speech():
                 else:
                     print ("invalid input!!")
                 
-                #time.sleep(1)
-                #time_left = time_left - 1
+                time.sleep(1)
+                time_left = time_left - 1
                 
             except sr.UnknownValueError:
                 print('Google Speech did not recognize audio')
@@ -128,7 +129,7 @@ def listen_for_pin():
                 lcd.lcd_display_string("Moisess!", 2)
                 user_recognized = True
                 #GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-                time.sleep(120)                     #Hold the GPIO pin High for 2 Minutes
+                time.sleep(120)                     # Hold the GPIO pin High for 2 Minutes
                 break
 
             elif message == '5678':
