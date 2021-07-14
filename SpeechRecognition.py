@@ -101,7 +101,7 @@ def speech():
 def listen_for_pin():
     r = sr.Recognizer()
     message = 'empty'
-    lcd.lcd_display_string("Say your Pin Number...", 1)
+    lcd.lcd_display_string("Say your Pin...", 1)
     print("Say your Pin Number")
     user_recognized = False
 
@@ -109,7 +109,8 @@ def listen_for_pin():
         with sr.Microphone() as source:
             audio = r.listen(source)
             text = r.recognize_google(audio)
-
+            message = text
+            
             if message == '1234':
                 # Display welcome message to Adam
                 print("Pin Number Detected...")
