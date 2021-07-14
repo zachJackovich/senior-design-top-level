@@ -50,7 +50,7 @@ GPIO.setup(6, GPIO.OUT, pull_up_down=GPIO.PUD_DOWN)
 #GPIO from Pi to Pi
 GPIO.setup(12, GPIO.OUT, pull_up_down=GPIO.PUD_DOWN)
 #GPIO from MSP430 to Pi
-GPIO.setup(16, GPIO.OUT, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(16, GPIO.IN)
 
 
 # Users pin definitions
@@ -62,7 +62,6 @@ Zach = '8765'
 
 
 def speech():
-
     r = sr.Recognizer()
     message = 'empty'
     time_left = 10
@@ -173,13 +172,12 @@ def listen_for_pin():
                 lcd.lcd_display_string("Invalid Pin,", 1)
                 lcd.lcd_display_string("Try again", 2)
 
-
-
 #If GPIO from MSP430 to the Pi for the Sonar Sensor is set, there is someone within 2m of the door so run the SpeechRecognition function
-if(GPIO.input(16)):
-    print("GPIO from MSP430 set HIGH. Running Speech()...")
-    speech()
+while True:
+    if(GPIO.input(16)):
+        print("GPIO from MSP430 set HIGH. Running Speech()...")
+        speech()
+    time.sleep(1)
 
-#speech()
 
 
