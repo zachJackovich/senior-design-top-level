@@ -60,7 +60,7 @@ def speech():
 
     r = sr.Recognizer()
     message = 'empty'
-    time_left = 120
+    time_left = 10
 
     while (time_left != 0):
 
