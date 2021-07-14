@@ -275,8 +275,8 @@ def keypad_function():
             digit = kp.getKey()
         seq.append(digit)
         time.sleep(0.4)
-
-    print("Printing Pin Number: " + seq)
+    print("Pin Number Entered: ")
+    print(seq)
 
 
 
