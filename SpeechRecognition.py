@@ -89,9 +89,6 @@ def speech():
                     listen_for_pin()
 
                 elif message == 'keypad':
-                    #string = ''
-                    #string = keypad(string)
-                    #print ('\nThe pin was: ' + string)
                     keypad_function()
 
                 else:
@@ -174,110 +171,78 @@ def listen_for_pin():
                 lcd.lcd_display_string("Try again", 2)
 
 
-    
-def readLine(string, line, characters):
-    print("In readLine()")
-    #Set the Line GPIO High, to test each Column
-    GPIO.output(line, GPIO.HIGH)
-
-    if(GPIO.input(C1) == 1):
-        if(line == L1):
-            string = string + "1"
-            return string
-        if(line == L2):
-            string = string + "4"
-            return string
-        if(line == L3):
-            string = string + "7"
-            return string
-        if(line == L4):
-            string = string + "*"
-            return string
-
-        #print(characters[0])
-        #lcd.lcd_display_string(characters[0], 1, 0)
-        # added this return string logic - Moisess
-
-
-    if(GPIO.input(C2) == 1):
-        if(line == L1):
-            string = string + "2"
-            return string
-        if(line == L2):
-            string = string + "5"
-            return string
-        if(line == L3):
-            string = string + "8"
-            return string
-        if(line == L4):
-            string = string + "0"
-            return string
-
-
-        #print(characters[1])
-        #lcd.lcd_display_string(characters[1], 1, 0)
-        # added this return string logic - Moisess
-      
-
-    if(GPIO.input(C3) == 1):
-        if(line == L1):
-            string = string + "3"
-            return string
-        if(line == L2):
-            string = string + "6"
-            return string
-        if(line == L3):
-            string = string + "9"
-            return string
-        if(line == L4):
-            string = string + "#"
-            return string
-
-
-
-        #print(characters[2])
-        #lcd.lcd_display_string(characters[2], 1, 0)
- 
-
-    if(GPIO.input(C4) == 1):
-        if(line == L1):
-            string = string + "A"
-            return string
-        if(line == L2):
-            string = string + "B"
-            return string
-        if(line == L3):
-            string = string + "C"
-            return string
-        if(line == L4):
-            string = string + "D"
-            return string
-
-            
-        #lcd.lcd_display_string(characters[3], 1, 0)
-        # added this return string logic - Moisess
-        
-
-    #Set the Line GPIO back to Low
-    GPIO.output(line, GPIO.LOW)
-    return string
-
 def keypad_function():
-    columnCount = 4
-    kp = keypad(columnCount)
-    
-    print("Inside keypad_function")
-    ###### 4 Digit wait ######
-    seq = ''
-    for i in range(4):
-        digit = None
-        while digit == None:
-            digit = kp.getKey()
-            char_version = str(digit)
-        seq = seq + char_version
-        time.sleep(0.4)
-    print("Pin Number Entered: " + seq)
+    kp = keypad(columnCount = 4)
+    user_recognized = False
 
+    lcd.lcd_clear()
+    lcd.lcd_display_string("Enter your Pin", 1)
+    print("Enter Pin Number")
+
+    while not user_recognized:
+        ###### 4 Digit wait ######
+        seq = ''
+        for i in range(4):
+            digit = None
+            while digit == None:
+                digit = kp.getKey()
+                char_version = str(digit)
+            seq = seq + char_version
+            time.sleep(0.4)
+
+        if seq == '1234':
+            # Display welcome message to Adam
+            print("Pin Number Detected...")
+            lcd.lcd_clear()
+            lcd.lcd_display_string("Welcome Home,", 1)
+            lcd.lcd_display_string("Adam!", 2)
+            user_recognized = True
+            GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+            GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
+            #time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
+            break
+
+        elif seq == '4321':
+            # Display welcome message to Moisess
+            print("Pin Number Detected...")
+            lcd.lcd_clear()
+            lcd.lcd_display_string("Welcome Home,", 1)
+            lcd.lcd_display_string("Moisess!", 2)
+            user_recognized = True
+            GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+            GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
+            #time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
+            break
+
+        elif seq == '5678':
+            # Display welcome message to Reham
+            print("Pin Number Detected...")
+            lcd.lcd_clear()
+            lcd.lcd_display_string("Welcome Home,", 1)
+            lcd.lcd_display_string("Reham!", 2)
+            user_recognized = True
+            GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+            GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
+            #time.sleep(2)                       # Hold the GPIO pin High for 2 Minutes
+            break
+
+        elif seq == '8765':
+            # Display welcome message to Zach
+            print("Pin Number Detected...")
+            lcd.lcd_clear()
+            lcd.lcd_display_string("Welcome Home,", 1)
+            lcd.lcd_display_string("Zach!", 2)
+            user_recognized = True
+            GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+            GPIO.output(12, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
+            #time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
+            break
+
+        else:
+            print("Invalid Pin, try again.")
+            lcd.lcd_clear()
+            lcd.lcd_display_string("Invalid Pin,", 1)
+            lcd.lcd_display_string("Try again", 2)
 
 
 
