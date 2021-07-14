@@ -2,7 +2,6 @@ import I2C_LCD_driver
 import speech_recognition as sr
 import RPi.GPIO as GPIO
 import time
-#from keyPad import *
 
 #Things to do:
 # Initialize LCD                          => Done
@@ -90,7 +89,7 @@ def speech():
 
                 elif message == 'keypad':
                     string = ''
-                    #string = keypad(string)
+                    string = keypad(string)
                     print ('\nThe pin was: ' + string)
 
                 else:
@@ -172,12 +171,71 @@ def listen_for_pin():
                 lcd.lcd_display_string("Invalid Pin,", 1)
                 lcd.lcd_display_string("Try again", 2)
 
+def keypad(string):
+    num_count = 0
+    try:
+        while num_count < 4:
+            # Added another paramater "string" to update the "global variable" - Moisess
+            # Set string equal to the readLine function to update the variable - Moisess
+            string,num_count = readLine(string, L1, ["1","2","3","A"], num_count)
+            string,num_count = readLine(string, L2, ["4","5","6","B"], num_count)
+            string,num_count = readLine(string, L3, ["7","8","9","C"], num_count)
+            string,num_count = readLine(string, L4, ["*","0","#","D"], num_count)
+            time.sleep(0.1)
+            print(num_count)
+        
+    except KeyboardInterrupt:
+        print("\nApplication stopped!")
+        print("Pin Number Detected: " + string)
+        lcd.lcd_clear()
+        return string
+    
+def readLine(string, line, characters, num_count):
+    #Set the Line GPIO High, to test each Column
+    GPIO.output(line, GPIO.HIGH)
+
+    if(GPIO.input(C1) == 1):
+        print(characters[0])
+        string = string + characters[0]
+        lcd.lcd_display_string(characters[0], 1, 0)
+        # added this return string logic - Moisess
+        num_count = num_count + 1
+        return string,num_count
+
+    if(GPIO.input(C2) == 1):
+        print(characters[1])
+        string = string + characters[1]
+        lcd.lcd_display_string(characters[1], 1, 0)
+        # added this return string logic - Moisess
+        num_count = num_count + 1
+        return string,num_count
+
+    if(GPIO.input(C3) == 1):
+        print(characters[2])
+        string = string + characters[2]
+        lcd.lcd_display_string(characters[2], 1, 0)
+        # added this return string logic - Moisess
+        num_count = num_count + 1
+        return string,num_count
+
+    if(GPIO.input(C4) == 1):
+        print(characters[3])
+        string = string + characters[3]
+        lcd.lcd_display_string(characters[3], 1, 0)
+        # added this return string logic - Moisess
+        num_count = num_count + 1
+        return string,num_count
+
+    #Set the Line GPIO back to Low
+    GPIO.output(line, GPIO.LOW)
+
+
 #If GPIO from MSP430 to the Pi for the Sonar Sensor is set, there is someone within 2m of the door so run the SpeechRecognition function
-while True:
-    if(GPIO.input(16)):
-        print("GPIO from MSP430 set HIGH. Running Speech()...")
-        speech()
-    time.sleep(1)
+#while True:
+    #if(GPIO.input(16)):
+    #    print("GPIO from MSP430 set HIGH. Running Speech()...")
+    #    speech()
+    #time.sleep(1)
 
-
+speech()
 
