@@ -200,16 +200,16 @@ def readLine(string, line, characters):
     GPIO.output(line, GPIO.HIGH)
 
     if(GPIO.input(C1) == 1):
-        if(line = L1):
+        if(line == L1):
             string = string + "1"
             return string
-        if(line = L2):
+        if(line == L2):
             string = string + "4"
             return string
-        if(line = L3):
+        if(line == L3):
             string = string + "7"
             return string
-        if(line = L4):
+        if(line == L4):
             string = string + "*"
             return string
 
@@ -219,16 +219,16 @@ def readLine(string, line, characters):
 
 
     if(GPIO.input(C2) == 1):
-        if(line = L1):
+        if(line == L1):
             string = string + "2"
             return string
-        if(line = L2):
+        if(line == L2):
             string = string + "5"
             return string
-        if(line = L3):
+        if(line == L3):
             string = string + "8"
             return string
-        if(line = L4):
+        if(line == L4):
             string = string + "0"
             return string
 
@@ -239,16 +239,16 @@ def readLine(string, line, characters):
       
 
     if(GPIO.input(C3) == 1):
-        if(line = L1):
+        if(line == L1):
             string = string + "3"
             return string
-        if(line = L2):
+        if(line == L2):
             string = string + "6"
             return string
-        if(line = L3):
+        if(line == L3):
             string = string + "9"
             return string
-        if(line = L4):
+        if(line == L4):
             string = string + "#"
             return string
 
@@ -259,16 +259,16 @@ def readLine(string, line, characters):
  
 
     if(GPIO.input(C4) == 1):
-        if(line = L1):
+        if(line == L1):
             string = string + "A"
             return string
-        if(line = L2):
+        if(line == L2):
             string = string + "B"
             return string
-        if(line = L3):
+        if(line == L3):
             string = string + "C"
             return string
-        if(line = L4):
+        if(line == L4):
             string = string + "D"
             return string
 
