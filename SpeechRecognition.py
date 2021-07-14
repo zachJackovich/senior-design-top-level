@@ -2,6 +2,7 @@ import I2C_LCD_driver
 import speech_recognition as sr
 import RPi.GPIO as GPIO
 import time
+from keypad_v2 import keypad
 
 #Things to do:
 # Initialize LCD                          => Done
@@ -88,9 +89,10 @@ def speech():
                     listen_for_pin()
 
                 elif message == 'keypad':
-                    string = ''
-                    string = keypad(string)
-                    print ('\nThe pin was: ' + string)
+                    #string = ''
+                    #string = keypad(string)
+                    #print ('\nThe pin was: ' + string)
+                    keypad_function()
 
                 else:
                     print ("invalid input!!")
@@ -280,6 +282,21 @@ def readLine(string, line, characters):
     #Set the Line GPIO back to Low
     GPIO.output(line, GPIO.LOW)
     return string
+
+def keypad_function():
+    print("Inside keypad_function")
+    ###### 4 Digit wait ######
+    seq = []
+    for i in range(4):
+        digit = None
+        while digit == None:
+            digit = kp.getKey()
+        seq.append(digit)
+        time.sleep(0.4)
+
+    print("Printing Pin Number: " + seq)
+
+
 
 
 #If GPIO from MSP430 to the Pi for the Sonar Sensor is set, there is someone within 2m of the door so run the SpeechRecognition function
