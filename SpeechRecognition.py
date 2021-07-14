@@ -172,9 +172,8 @@ def listen_for_pin():
                 lcd.lcd_display_string("Try again", 2)
 
 def keypad(string):
-    #num_count = 0
     try:
-        while True:
+        while (len(string) < 5):
             # Added another paramater "string" to update the "global variable" - Moisess
             # Set string equal to the readLine function to update the variable - Moisess
             string = readLine(string, L1, ["1","2","3","A"])
@@ -182,7 +181,7 @@ def keypad(string):
             string = readLine(string, L3, ["7","8","9","C"])
             string = readLine(string, L4, ["*","0","#","D"])
             time.sleep(0.1)
-            #print(num_count)
+            print(len(string))
             lcd.lcd_clear()
             return string
         
@@ -202,7 +201,6 @@ def readLine(string, line, characters):
         string = string + characters[0]
         lcd.lcd_display_string(characters[0], 1, 0)
         # added this return string logic - Moisess
-        #num_count = num_count + 1
         return string
 
     if(GPIO.input(C2) == 1):
@@ -210,7 +208,6 @@ def readLine(string, line, characters):
         string = string + characters[1]
         lcd.lcd_display_string(characters[1], 1, 0)
         # added this return string logic - Moisess
-        #num_count = num_count + 1
         return string
 
     if(GPIO.input(C3) == 1):
@@ -218,7 +215,6 @@ def readLine(string, line, characters):
         string = string + characters[2]
         lcd.lcd_display_string(characters[2], 1, 0)
         # added this return string logic - Moisess
-        #num_count = num_count + 1
         return string
 
     if(GPIO.input(C4) == 1):
@@ -226,11 +222,11 @@ def readLine(string, line, characters):
         string = string + characters[3]
         lcd.lcd_display_string(characters[3], 1, 0)
         # added this return string logic - Moisess
-        #num_count = num_count + 1
         return string
 
     #Set the Line GPIO back to Low
     GPIO.output(line, GPIO.LOW)
+    return string
 
 
 #If GPIO from MSP430 to the Pi for the Sonar Sensor is set, there is someone within 2m of the door so run the SpeechRecognition function
