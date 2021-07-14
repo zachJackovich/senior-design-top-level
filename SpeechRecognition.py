@@ -92,13 +92,12 @@ def speech():
                 else:
                     print ("invalid input!!")
                 
-                #time.sleep(1)
-                time_left = time_left - 1
-                
             except sr.UnknownValueError:
                 print('Google Speech did not recognize audio')
             except sr.RequestError as e:
                 print('Could not request results from Google Speech Recognition Service; {0}'.format(e))
+
+            time_left = time_left - 1
 
 
 def listen_for_pin():
