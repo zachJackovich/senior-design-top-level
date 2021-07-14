@@ -67,6 +67,7 @@ def speech():
         with sr.Microphone() as source:
             
             print('Speech or Keypad?')   
+            lcd.lcd_clear()
             lcd.lcd_display_string("Speech or", 1)
             lcd.lcd_display_string("Keypad?", 2)
             audio = r.listen(source)
@@ -87,12 +88,11 @@ def speech():
                     string = ''
                     #string = keypad(string)
                     print ('\nThe pin was: ' + string)
-                    break 
 
                 else:
                     print ("invalid input!!")
                 
-                time.sleep(1)
+                #time.sleep(1)
                 time_left = time_left - 1
                 
             except sr.UnknownValueError:
@@ -123,7 +123,7 @@ def listen_for_pin():
                 lcd.lcd_display_string("Adam!", 2)
                 user_recognized = True
                 #GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-                time.sleep(2)                     #Hold the GPIO pin High for 2 Minutes
+                #time.sleep(2)                     #Hold the GPIO pin High for 2 Minutes
                 break
 
             elif message == '4321':
@@ -134,7 +134,7 @@ def listen_for_pin():
                 lcd.lcd_display_string("Moisess!", 2)
                 user_recognized = True
                 #GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-                time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
+                #time.sleep(2)                     # Hold the GPIO pin High for 2 Minutes
                 break
 
             elif message == '5678':
@@ -145,7 +145,7 @@ def listen_for_pin():
                 lcd.lcd_display_string("Reham!", 2)
                 user_recognized = True
                 #GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-                time.sleep(2)                     #Hold the GPIO pin High for 2 Minutes
+                #time.sleep(2)                     #Hold the GPIO pin High for 2 Minutes
                 break
 
             elif message == '8765':
@@ -156,13 +156,15 @@ def listen_for_pin():
                 lcd.lcd_display_string("Zach!", 2)
                 user_recognized = True
                 #GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-                time.sleep(2)                     #Hold the GPIO pin High for 2 Minutes
+                #time.sleep(2)                     #Hold the GPIO pin High for 2 Minutes
                 break
 
             else:
                 print("Invalid Pin, try again.")
                 lcd.lcd_clear()
-                lcd.lcd_display_string("Invalid Pin, try again", 1)
+                lcd.lcd_display_string("Invalid Pin,", 1)
+                lcd.lcd_display_string("Try again", 2)
+
 
 
 #If GPIO from MSP430 to the Pi for the Sonar Sensor is set, there is someone within 2m of the door so run the SpeechRecognition function
