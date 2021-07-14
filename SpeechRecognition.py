@@ -200,32 +200,82 @@ def readLine(string, line, characters):
     GPIO.output(line, GPIO.HIGH)
 
     if(GPIO.input(C1) == 1):
-        print(characters[0])
-        string = string + characters[0]
-        lcd.lcd_display_string(characters[0], 1, 0)
+        if(line = L1):
+            string = string + "1"
+            return string
+        if(line = L2):
+            string = string + "4"
+            return string
+        if(line = L3):
+            string = string + "7"
+            return string
+        if(line = L4):
+            string = string + "*"
+            return string
+
+        #print(characters[0])
+        #lcd.lcd_display_string(characters[0], 1, 0)
         # added this return string logic - Moisess
-        return string
+
 
     if(GPIO.input(C2) == 1):
-        print(characters[1])
-        string = string + characters[1]
-        lcd.lcd_display_string(characters[1], 1, 0)
+        if(line = L1):
+            string = string + "2"
+            return string
+        if(line = L2):
+            string = string + "5"
+            return string
+        if(line = L3):
+            string = string + "8"
+            return string
+        if(line = L4):
+            string = string + "0"
+            return string
+
+
+        #print(characters[1])
+        #lcd.lcd_display_string(characters[1], 1, 0)
         # added this return string logic - Moisess
-        return string
+      
 
     if(GPIO.input(C3) == 1):
-        print(characters[2])
-        string = string + characters[2]
-        lcd.lcd_display_string(characters[2], 1, 0)
-        # added this return string logic - Moisess
-        return string
+        if(line = L1):
+            string = string + "3"
+            return string
+        if(line = L2):
+            string = string + "6"
+            return string
+        if(line = L3):
+            string = string + "9"
+            return string
+        if(line = L4):
+            string = string + "#"
+            return string
+
+
+
+        #print(characters[2])
+        #lcd.lcd_display_string(characters[2], 1, 0)
+ 
 
     if(GPIO.input(C4) == 1):
-        print(characters[3])
-        string = string + characters[3]
-        lcd.lcd_display_string(characters[3], 1, 0)
+        if(line = L1):
+            string = string + "A"
+            return string
+        if(line = L2):
+            string = string + "B"
+            return string
+        if(line = L3):
+            string = string + "C"
+            return string
+        if(line = L4):
+            string = string + "D"
+            return string
+
+            
+        #lcd.lcd_display_string(characters[3], 1, 0)
         # added this return string logic - Moisess
-        return string
+        
 
     #Set the Line GPIO back to Low
     GPIO.output(line, GPIO.LOW)
