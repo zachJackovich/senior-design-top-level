@@ -77,17 +77,13 @@ def speech():
             audio = r.listen(source)
             
             try:
-
                 text = r.recognize_google(audio)
-
-                #display LCD Message
 
                 print('You said : ' + text)
                 message = text
                 
                 if message == 'speech':
                     listen_for_pin()
-
 
                 elif message == 'keypad':
                     keypad_function()

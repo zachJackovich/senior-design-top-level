@@ -25,7 +25,7 @@ SpeechPi => FacereqPi (For LED Status Lights) - Telling Facereq that pin # is Au
 ==============================================
 LCD Screen Pins:
 Vcc (5V)         - 5V      (Pin 2)
-GND              - GND     (Pin 6)
+GND              - GND     (Pin 9)
 SDA              - GPIO 2  (Pin 3)
 SCL              - GPIO 3  (Pin 5)
 Keypad GPIO's:
@@ -39,8 +39,8 @@ Column3          - GPIO 27 (Pin 13)
 Column4          - GPIO 17 (Pin 11)
 Inter chip GPIO pins:
 MSP => Pi        - GPIO 16 (Pin 36)
-Pi  => Pi        - GPIO 12 (Pin 32)
-Pi  => MSP430    - GPIO 26 (Pin 37)
+Pi  => Pi        - GPIO 12 (Pin 32) ** Pull down resistor handled on Facereq Pi side
+Pi  => MSP430    - GPIO 6  (Pin 31)
 
 Pi Running Face Recognition:
 ==============================================
@@ -51,9 +51,9 @@ LED Lights for Status - 3 Pins (Vcc, GND, Data)
 ==============================================
 Inter chip GPIO pins:
 MSP => Pi         - GPIO 16 (Pin 36)
-Pi  => Pi         - GPIO 12 (Pin 32)
+Pi  => Pi         - GPIO 12 (Pin 32) ** Pull down resistor handled on Facereq Pi side
 Pi  => MSP430     - GPIO 26 (Pin 37)
 LED Lights Pins:
-Vcc (5V)          - 5V      (Pin 4)
-GND               - GND     (Pin 6)
-Data              - GPIO 14 (Pin 8) 
+Vcc (5V)          - 5V      (Pin 2)
+GND               - GND     (Pin 9)
+Data              - GPIO 18 (Pin 12) 

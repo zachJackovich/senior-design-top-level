@@ -1,16 +1,7 @@
 //***************************************************************************************
 //  MSP430 Test GPIO Connection to Raspberry Pi
 //
-//  Description; Toggle P1.3 by xor'ing P1.3 inside of a software loop.
-//  ACLK = n/a, MCLK = SMCLK = default DCO
 //
-//                MSP430FR6xxx
-//             ------------------
-//         /|\|               XIN|-
-//          | |                 |
-//          --|RST           XOUT|-
-//            |                 |
-//            |              P1.3|-->GPIO to Raspberry Pi
 //
 //  Texas Instruments, Inc
 //  July 2013
@@ -115,7 +106,7 @@ __interrupt void T0A0_ISR(void)
             {
                 __delay_cycles(500000);           // 0.5sec measurement cycle
                 // Now check the 2 input GPIO's every 0.5 seconds for if the user has been recognized
-                /*if((P3OUT & FACIAL) && (P3OUT & PIN))
+                /*if((P3IN & FACIAL) && (P3IN & PIN))
                 {
                     unlock_door();
                     break;
