@@ -41,6 +41,8 @@ int main(void)
     P3REN |=   FACIAL;                         // Enable internal pull-up or pull-down resistors
     P3OUT &=  ~FACIAL;                         // Set to use pull-down resistor
 
+
+
     //GPIO Signal that will be used to unlock the Strike Lock
 
 
@@ -77,6 +79,9 @@ int main(void)
         __delay_cycles(500000);           // 0.5sec delay
         P1OUT &= ~TRIG;
         //P9OUT ^= greenLED;
+
+
+
     }
 }
 
