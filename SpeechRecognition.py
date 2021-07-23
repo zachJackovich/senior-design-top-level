@@ -3,6 +3,7 @@ import speech_recognition as sr
 import RPi.GPIO as GPIO
 import time
 from keypad_v2 import keypad
+import datetime
 
 # Initialize LCD object
 lcd = I2C_LCD_driver.lcd()
@@ -60,9 +61,20 @@ def speech():
     r = sr.Recognizer()
     message = 'empty'
     
-    recognition_tries = 5
+    #recognition_tries = 5
+    #start = time.time()
+    end_time = datetime.datetime.now() + datetime.timedelta(minutes=2)
+    user_recognized = False
+    while (True):
 
-    while (recognition_tries != 0):
+        #now = time.time()
+        if( datetime.datetime.now() >= end_time) :
+            lcd.lcd_clear()
+            lcd.lcd_display_string("Timed out,", 1)
+            lcd.lcd_display_string("Exiting...", 2)
+            time.sleep(5)
+            break
+
 
         with sr.Microphone() as source:
             
@@ -79,10 +91,10 @@ def speech():
                 message = text
                 
                 if message == 'speech':
-                    listen_for_pin()
+                    user_recognized = listen_for_pin(user_recognized)
 
                 elif message == 'keypad':
-                    keypad_function()
+                    user_recognized = keypad_function(user_recognized)
 
                 else:
                     print ("invalid input!!")
@@ -91,23 +103,25 @@ def speech():
                     lcd.lcd_display_string("Try again", 2)
                     time.sleep(5)
                 
+
+
             except sr.UnknownValueError:
                 print('Did not recognize audio')
             except sr.RequestError as e:
                 print('Could not recognize speech during analysis; {0}'.format(e))
 
-        recognition_tries = recognition_tries - 1
+        #recognition_tries = recognition_tries - 1
 
     return
 
 
-def listen_for_pin():
+def listen_for_pin(user_recognized):
     r = sr.Recognizer()
     message = 'empty'
     lcd.lcd_clear()
     lcd.lcd_display_string("Say your Pin...", 1)
     print("Say your Pin Number")
-    user_recognized = False
+    #user_recognized = False
 
     while not(user_recognized):
         with sr.Microphone() as source:
@@ -122,7 +136,7 @@ def listen_for_pin():
                 lcd.lcd_display_string("Welcome Home,", 1)
                 lcd.lcd_display_string("Adam!", 2)
                 GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-                GPIO.output(16, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
+                GPIO.output(16, 1)                 # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
                 time.sleep(10)                     # Hold the GPIO pin High for 2 Minutes
 
                 # After waiting X minutes, clear LCD and reset GPIO outputs Low
@@ -130,7 +144,6 @@ def listen_for_pin():
                 GPIO.output(6, 0)
                 GPIO.output(16, 0)
                 user_recognized = True
-                break
 
             elif message == '4321':
                 # Display welcome message to Moisess
@@ -139,7 +152,7 @@ def listen_for_pin():
                 lcd.lcd_display_string("Welcome Home,", 1)
                 lcd.lcd_display_string("Moisess!", 2)
                 GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-                GPIO.output(16, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
+                GPIO.output(16, 1)                 # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
                 time.sleep(10)                     # Hold the GPIO pin High for 2 Minutes
 
                 # After waiting X minutes, clear LCD and reset GPIO outputs Low
@@ -147,7 +160,6 @@ def listen_for_pin():
                 GPIO.output(6, 0)
                 GPIO.output(16, 0)
                 user_recognized = True
-                break
 
             elif message == '5678':
                 # Display welcome message to Reham
@@ -155,8 +167,8 @@ def listen_for_pin():
                 lcd.lcd_clear()
                 lcd.lcd_display_string("Welcome Home,", 1)
                 lcd.lcd_display_string("Reham!", 2)
-                GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-                GPIO.output(16, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
+                GPIO.output(6, 1)                    # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+                GPIO.output(16, 1)                   # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
                 time.sleep(10)                       # Hold the GPIO pin High for 2 Minutes
 
                 # After waiting X minutes, clear LCD and reset GPIO outputs Low
@@ -164,7 +176,6 @@ def listen_for_pin():
                 GPIO.output(6, 0)
                 GPIO.output(16, 0)
                 user_recognized = True
-                break
 
             elif message == '8765':
                 # Display welcome message to Zach
@@ -173,7 +184,7 @@ def listen_for_pin():
                 lcd.lcd_display_string("Welcome Home,", 1)
                 lcd.lcd_display_string("Zach!", 2)
                 GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-                GPIO.output(16, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
+                GPIO.output(16, 1)                 # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
                 time.sleep(10)                     # Hold the GPIO pin High for 2 Minutes
 
                 # After waiting X minutes, clear LCD and reset GPIO outputs Low
@@ -181,7 +192,6 @@ def listen_for_pin():
                 GPIO.output(6, 0)
                 GPIO.output(16, 0)
                 user_recognized = True
-                break
 
             else:
                 print("Invalid Pin, try again.")
@@ -189,17 +199,21 @@ def listen_for_pin():
                 lcd.lcd_display_string("Invalid Pin,", 1)
                 lcd.lcd_display_string("Try again", 2)
                 time.sleep(5)
+    
+            if(user_recognized == True):
+                return user_recognized
 
 
-def keypad_function():
+
+def keypad_function(user_recognized):
     kp = keypad(columnCount = 4)
-    user_recognized = False
+    #user_recognized = False
 
     lcd.lcd_clear()
     lcd.lcd_display_string("Enter your Pin", 1)
     print("Enter Pin Number")
 
-    while not user_recognized:
+    while not (user_recognized):
         ###### 4 Digit wait ######
         seq = ''
         for i in range(4):
@@ -217,7 +231,7 @@ def keypad_function():
             lcd.lcd_display_string("Welcome Home,", 1)
             lcd.lcd_display_string("Adam!", 2)
             GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-            GPIO.output(16, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
+            GPIO.output(16, 1)                 # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
             time.sleep(10)                     # Hold the GPIO pin High for 2 Minutes
 
             # After waiting X minutes, clear LCD and reset GPIO outputs Low
@@ -225,7 +239,6 @@ def keypad_function():
             GPIO.output(6, 0)
             GPIO.output(16, 0)
             user_recognized = True
-            break
 
         elif seq == '4321':
             # Display welcome message to Moisess
@@ -234,7 +247,7 @@ def keypad_function():
             lcd.lcd_display_string("Welcome Home,", 1)
             lcd.lcd_display_string("Moisess!", 2)
             GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-            GPIO.output(16, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
+            GPIO.output(16, 1)                 # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
             time.sleep(10)                     # Hold the GPIO pin High for 2 Minutes
 
             # After waiting X minutes, clear LCD and reset GPIO outputs Low
@@ -242,7 +255,6 @@ def keypad_function():
             GPIO.output(6, 0)
             GPIO.output(16, 0)
             user_recognized = True
-            break
 
         elif seq == '5678':
             # Display welcome message to Reham
@@ -250,8 +262,8 @@ def keypad_function():
             lcd.lcd_clear()
             lcd.lcd_display_string("Welcome Home,", 1)
             lcd.lcd_display_string("Reham!", 2)
-            GPIO.output(6, 1)                  # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-            GPIO.output(16, 1)                       # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
+            GPIO.output(6, 1)                   # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+            GPIO.output(16, 1)                   # Set the GPIO to the Facereq Pi, signaling that Pin is authenticated
             time.sleep(10)                       # Hold the GPIO pin High for 2 Minutes
             
             # After waiting X minutes, clear LCD and reset GPIO outputs Low
@@ -259,7 +271,6 @@ def keypad_function():
             GPIO.output(6, 0)
             GPIO.output(16, 0)
             user_recognized = True
-            break
 
         elif seq == '8765':
             # Display welcome message to Zach
@@ -276,7 +287,6 @@ def keypad_function():
             GPIO.output(6, 0)
             GPIO.output(16, 0)
             user_recognized = True
-            break
 
         else:
             print("Invalid Pin, try again.")
@@ -285,12 +295,15 @@ def keypad_function():
             lcd.lcd_display_string("Try again", 2)
             time.sleep(5)
 
+        if(user_recognized == True):
+            return user_recognized
+
 
 def main():
     #If GPIO from MSP430 to the Pi for the Sonar Sensor is set, there is someone within 2m of the door so run the SpeechRecognition function
     
     print("Welcome...")
-    master_pin = input("Please enter a Master Pin Number...")
+    #master_pin = input("Please enter a Master Pin Number...")
 
     print("Thank you. Now starting the Smart Door Security System...")
     
