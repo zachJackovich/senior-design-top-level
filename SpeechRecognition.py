@@ -65,7 +65,7 @@ def speech():
     #start = time.time()
     end_time = datetime.datetime.now() + datetime.timedelta(minutes=2)
     user_recognized = False
-    while (True):
+    while not(user_recognized):
 
         #now = time.time()
         if( datetime.datetime.now() >= end_time) :
@@ -308,11 +308,30 @@ def main():
     print("Thank you. Now starting the Smart Door Security System...")
     
     while True:
-        if(GPIO.input(12)):
-            print("GPIO from MSP430 set HIGH. Running Speech()...")
-            time.sleep(3)
-            speech()
-        
+        try:
+            if(GPIO.input(12)):
+                print("GPIO from MSP430 set HIGH. Running Speech()...")
+                time.sleep(3)
+                speech()
+                
+        except KeyboardInterrupt:
+            print("\n\nExiting...")
+            #GPIO.cleanup()
+            GPIO.output(6,0)
+	    GPIO.output(16,0)
+	    lcd.lcd_clear()
+            break
+            
+
+
+
+
+
+
+        #if(GPIO.input(12)):
+            #print("GPIO from MSP430 set HIGH. Running Speech()...")
+            #time.sleep(3)
+            #speech()
 
 
 if __name__ == "__main__":

@@ -9,42 +9,55 @@ import pickle
 import time
 import cv2
 import subprocess
+import RPi.GPIO as GPIO
+import datetime
 
-#GPIO.setmode(GPIO.BCM)
-#Set GPIO Pin 21 as Output, and set an internal Pull-Down Resistor 
-#GPIO.setup(21, GPIO.OUT, pull_up_down=GPIO.PUD_DOWN)
-#Set GPIO Pin 20 as Input, 
-#GPIO.setup(20, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+subprocess.call(['sh', './redLED.sh']) #Turn the LED red to indicate the pi is on
 
-valid = "false"
-print (valid)
-subprocess.call(['sh', './whiteLED.sh']) #Turn the LED white
+# Setup GPIO Use
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+#GPIO from Pi to MSP430
+GPIO.setup(6, GPIO.OUT)
+#GPIO from Pi to Pi
+GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+#GPIO from MSP430 to Pi
+GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-#Initialize 'currentname' to trigger only when a new person is identified.
-currentname = "unknown"
-#Determine faces from encodings.pickle file model created from train_model.py
-encodingsP = "encodings.pickle"
-#use this xml file
-cascade = "haarcascade_frontalface_default.xml"
 
-# load the known faces and embeddings along with OpenCV's Haar
-# cascade for face detection
-print("[INFO] loading encodings + face detector...")
-data = pickle.loads(open(encodingsP, "rb").read())
-detector = cv2.CascadeClassifier(cascade)
+# loop over frames from the video file stream
 
-# initialize the video stream and allow the camera sensor to warm up
-print("[INFO] starting video stream...")
-vs = VideoStream(src=0).start()
-#vs = VideoStream(usePiCamera=True).start()
-time.sleep(2.0)
+time.sleep(1)
 
-# start the FPS counter
-fps = FPS().start()
 
-def facialRec(currentname):
-    # loop over frames from the video file stream
-    while True:
+def facialRec():
+    subprocess.call(['sh', './whiteLED.sh']) #Turn the LED white
+    #Initialize 'currentname' to trigger only when a new person is identified.
+    currentname = "unknown"
+    #Determine faces from encodings.pickle file model created from train_model.py
+    encodingsP = "encodings.pickle"
+    #use this xml file
+    cascade = "haarcascade_frontalface_default.xml"
+
+    # load the known faces and embeddings along with OpenCV's Haar
+    # cascade for face detection
+    #print("[INFO] loading encodings + face detector...")
+    data = pickle.loads(open(encodingsP, "rb").read())
+    detector = cv2.CascadeClassifier(cascade)
+
+    # initialize the video stream and allow the camera sensor to warm up
+    #print("[INFO] starting video stream...")
+    vs = VideoStream(src=0).start()
+    time.sleep(2.0)
+
+    # start the FPS counter
+    fps = FPS().start()
+    valid = False
+    user_recognized = False
+    # setting the max time for this function to run to 2 mins
+    end_time = datetime.datetime.now() + datetime.timedelta(minutes=2)
+    
+    while not(user_recognized):
         # grab the frame from the threaded video stream and resize it
         # to 500px (to speedup processing)
         frame = vs.read()
@@ -68,6 +81,8 @@ def facialRec(currentname):
         # compute the facial embeddings for each face bounding box
         encodings = face_recognition.face_encodings(rgb, boxes)
         names = []
+
+
 
         # loop over the facial embeddings
         for encoding in encodings:
@@ -99,55 +114,116 @@ def facialRec(currentname):
                 #If someone in your dataset is identified, print their name on the screen
                 if currentname != name:
                     currentname = name
-                    print(currentname)
-                    #set the valid bit to true
-                    valid = "true"
-                    #GPIO.output(21, 1)                  #Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
-                    #time.sleep(120)                     #Hold the GPIO pin High for 2 Minutes
-                    print(valid)
-                    subprocess.call(['sh', './greenLED.sh']) #Turn the LED Green
+                    user_recognized = True
+                    print("The user is: " + currentname)
+                    
+                    if ((currentname == 'Moisess') or (currentname == 'Zach')):
+                        #set the valid bit to true
+                        valid = True
+ 			new_end_time = datetime.datetime.now() + datetime.timedelta(seconds=30)
+			GPIO.output(6, 1) # Set the GPIO to the MSP430 to High, signaling the U$
+			while True:
+                                if(GPIO.input(12)):
+                                       print("Speech and face recognized, changing LEDs to green")
+                                       subprocess.call(['sh', './greenLED.sh']) #Turn the LED Green
+                                       break
+                                if datetime.datetime.now() >= new_end_time:
+                                       print ('inner time limit reached')
+                                       break
+			time.sleep(60)
+			GPIO.output(6, 0)
 
+#                        if(GPIO.input(12) and valid == True):
+#                            print("Speech and face recognized, changing LEDs to green")
+#                            subprocess.call(['sh', './greenLED.sh']) #Turn the LED Green
+#                            GPIO.output(6, 1) # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+#                            time.sleep(240)
+#                            GPIO.output(6, 0)
+#                        elif(GPIO.input(12) or valid == True):
+#                            print("Speech Recognized or Face Recognized, changing LEDs to blue")
+#                            subprocess.call(['sh', './greenLED.sh']) #Turn the LED Yellow
+#                            time.sleep(3)
+#			    GPIO.output(6, 1) # Set the GPIO to the MSP430 to High, signaling the User's Pin# was detected
+#			    new_end_time = datetime.datetime.now() + datetime.timedelta(seconds=30)
+#			    while True:
+#                                if(GPIO.input(12) and valid == True):
+#					print("Speech and face recognized, changing LEDs to green")
+#                                 	subprocess.call(['sh', './greenLED.sh']) #Turn the LED Green
+#					break
+#                                if datetime.datetime.now() >= new_end_time:
+#                                	print ('time limit reached')
+#                                 	break
+
+#			    time.sleep(60)
+#                            GPIO.output(6, 0)
+                            
+                       # elif(GPIO.input(12) or valid == True):
+                           # print("Face Recognized but not speech, changing LEDs to blue")
+                            #subprocess.call(['sh', './blueLED.sh']) #Turn the LED Blue
+                            
+                            # setting the max time for this function to run to 2 mins
+                            #new_end_time = datetime.datetime.now() + datetime.timedelta(seconds=30)
+                            
+                            #GPIO.output(6, 1) # Set the GPIO to the MSP430 to High, signaling the User's Pin# 
+                            #while True:
+                               # if(GPIO.input(12) and valid == True):
+                                #    print("Speech and face recognized, changing LEDs to green")
+                                 #   subprocess.call(['sh', './greenLED.sh']) #Turn the LED Green
+                                #if valid or datetime.datetime.now() >= newend_time:
+                                 #   print ('time limit reached')
+                                  #  break
+                           #time.sleep(5)
+                            #GPIO.output(6, 0)
+                            #break
+                    else:
+                        print ('Unauthorized user!')
+                        subprocess.call(['sh', './redLED.sh']) #Turn the LED red
+                        time.sleep(2)
+                        
+                        
+                time.sleep(1)
+                
             # update the list of names
             names.append(name)
 
-        # loop over the recognized faces
-        #for ((top, right, bottom, left), name) in zip(boxes, names):
-            # draw the predicted face name on the image - color is in BGR
-            #cv2.rectangle(frame, (left, top), (right, bottom),
-                #(255, 0, 0), 2)
-            #y = top - 15 if top - 15 > 15 else top + 15
-           #cv2.putText(frame, name, (left, y), cv2.FONT_HERSHEY_SIMPLEX,
-                #.8, (0, 255, 255), 2)
-
-        # display the image to our screen
-        #
-        #commented out
-        #cv2.imshow("Facial Recognition is Running", frame)
-        key = cv2.waitKey(1) & 0xFF
-
-        # quit when 'q' key is pressed
-        if key == ord("q"):
-            break
-
         # update the FPS counter
         fps.update()
+        #if the user is identified or the time limit is reached then exit
+        if valid or datetime.datetime.now() >= end_time:
+            print ('time limit reached')
+            break
+    # stop the timer and display FPS information
+    fps.stop()
+    print("Ending facialRec()...")
+    subprocess.call(['sh', './offLED.sh']) #Turn the LED off
+    # do a bit of cleanup
+    cv2.destroyAllWindows()
+    vs.stop()
+    time.sleep(10)
+    #If GPIO from MSP430 to the Pi for the Sonar Sensor is set, there is someone within 2m of the door so run the SpeechRecognition functio
 
 
-#If GPIO from MSP430 to the Pi for the Sonar Sensor is set, there is someone within 2m of the door so run the SpeechRecognition function
-# NEED TO SET UP WITH GPIO Pins WE WANT TO USE ###
-#if(GPIO.input(20)):
-    #facialRec(currentname)
+def main():
+    #If GPIO from MSP430 to the Pi for the Sonar Sensor is set, there is someone within 2m of the door so run the SpeechRecognition function
 
-# currentname has to be passed to the function
-facialRec(currentname)
+    print("Thank you. Now starting the Smart Door Security System...")
+    subprocess.call(['sh', './offLED.sh']) #Turn the LED off
+    while True:
+        try:
+            if(GPIO.input(16)):
+#		subprocess.call(['sh', './offLED.sh']) #Turn the LED off
+            	print("GPIO from MSP430 set HIGH. Running facialRec()...")
+            	time.sleep(3)
+            	facialRec()
+                
+        except KeyboardInterrupt:
+            print("\n\nExiting...")
+            #subprocess.call(['sh', './runLEDs.sh']) #Turn the LEDs different colors
+            subprocess.call(['sh', './offLED.sh']) #Turn the LED off
+            GPIO.output(6, 0)
+	    #GPIO.cleanup()
+            break
+            
 
-# stop the timer and display FPS information
-fps.stop()
-#commented out
-#print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
-#print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
-
-# do a bit of cleanup
-cv2.destroyAllWindows()
-vs.stop()
-
+if __name__ == "__main__":
+    main()
